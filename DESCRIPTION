@@ -1,0 +1,40 @@
+Package: popdata
+Title: A Client for the UNHCR Popdata Platform
+Description: Client for the UNHCR Popdata Platform
+    <https://popdata.unhcr.org>. Allows to download popdata datasets into R.
+Version: 0.1.0.9000
+Authors@R: c(person(given = "Ahmadou",
+                    family = "Dicko",
+	   	    email = "mail@ahmadoudicko.com",
+		    role = c("aut", "cre")),
+	     person(given = "Hisham",
+                    family = "Galal",
+	   	    email = "galal@unhcr.org",
+		    role = "ctb"))
+License: MIT + file LICENSE
+LazyData: TRUE
+URL: https://gitlab.com/dickoa/popdata
+BugReports: https://gitlab.com/dickoa/popdata/issues
+Depends:
+    R (>= 3.5)
+Imports:
+    crul (>= 1.1),
+    jsonlite,
+    readr,
+    janitor,
+    memoise,
+    cachem,
+    tibble
+Suggests:
+    roxygen2,
+    knitr,
+    rmarkdown,
+    testthat,
+    covr,
+    webmockr,
+    vcr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Encoding: UTF-8
+Language: en-US
+VignetteBuilder: knitr
