@@ -67,34 +67,33 @@ Annual Statistical report.
 ``` r
 asr(indicator = "refugees", year = 2019)
 ## # A tibble: 6,214 x 30
-##    asylum origin year_start_total year_start_total_unhcr_assisted
-##    <chr>  <chr>             <dbl>                           <dbl>
-##  1 AFG    IRN                  34                              34
-##  2 AFG    IRQ                   1                               1
-##  3 AFG    PAK               72194                           72194
-##  4 ALB    ARE                   3                               3
-##  5 ALB    BUL                   1                               1
-##  6 ALB    CHI                  12                              12
-##  7 ALB    COD                   3                               3
-##  8 ALB    FGU                   0                               0
-##  9 ALB    GAZ                  14                              14
-## 10 ALB    IND                   0                               0
-## # … with 6,204 more rows, and 26 more variables:
-## #   group_recognition <dbl>, temporary_protection <dbl>,
-## #   individual_recognition <dbl>, resettlement_arrivals <dbl>,
-## #   births <dbl>, increases_other <dbl>, increases_total <dbl>,
-## #   decreases_voluntary_repatriation_total <dbl>,
-## #   decreases_voluntary_repatriation_total_unhcr_assisted <dbl>,
-## #   decreases_resettlement_total <dbl>,
-## #   decreases_resettlement_total_unhcr_assisted <dbl>,
+##    asylum origin yearStartTotal yearStartTotalU… groupRecognition
+##    <chr>  <chr>           <dbl>            <dbl>            <dbl>
+##  1 AFG    IRN                34               34                0
+##  2 AFG    IRQ                 1                1                0
+##  3 AFG    PAK             72194            72194                0
+##  4 ALB    ARE                 3                3                0
+##  5 ALB    BUL                 1                1                0
+##  6 ALB    CHI                12               12                0
+##  7 ALB    COD                 3                3                0
+##  8 ALB    FGU                 0                0                0
+##  9 ALB    GAZ                14               14                0
+## 10 ALB    IND                 0                0                0
+## # … with 6,204 more rows, and 25 more variables:
+## #   temporaryProtection <dbl>, individualRecognition <dbl>,
+## #   resettlementArrivals <dbl>, births <dbl>,
+## #   increasesOther <dbl>, increasesTotal <dbl>,
+## #   decreasesVoluntaryRepatriationTotal <dbl>,
+## #   decreasesVoluntaryRepatriationTotalUnhcrAssisted <dbl>,
+## #   decreasesResettlementTotal <dbl>,
+## #   decreasesResettlementTotalUnhcrAssisted <dbl>,
 ## #   cessation <dbl>, naturalization <dbl>, deaths <dbl>,
-## #   decreases_other <dbl>, decreases_total <dbl>,
-## #   year_end_total <dbl>, year_end_uasc_total <dbl>,
-## #   year_end_uasc_0_4 <dbl>, year_end_uasc_5_11 <dbl>,
-## #   year_end_uasc_12_14 <dbl>, year_end_uasc_0_14_total <dbl>,
-## #   year_end_uasc_15_17 <dbl>,
-## #   year_end_total_unhcr_assisted <dbl>, source <chr>,
-## #   basis <chr>
+## #   decreasesOther <dbl>, decreasesTotal <dbl>,
+## #   yearEndTotal <dbl>, yearEndUASCTotal <dbl>,
+## #   yearEndUASC_0_4 <dbl>, yearEndUASC_5_11 <dbl>,
+## #   yearEndUASC_12_14 <dbl>, yearEndUASC_0_14_total <dbl>,
+## #   yearEndUASC_15_17 <dbl>, yearEndTotalUnhcrAssisted <dbl>,
+## #   source <chr>, basis <chr>
 ```
 
 ## Meta

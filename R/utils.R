@@ -31,4 +31,9 @@ popdata_setup <- function(username = NULL,
 
   if (!is.null(cookie))
     Sys.setenv("POPDATA_COOKIE" = cookie)
+
+  invisible(list(username = Sys.getenv("POPDATA_USER", ""),
+                 password = Sys.getenv("POPDATA_PWD", ""),
+                 cookie =  Sys.getenv("POPDATA_COOKIE", ""),
+                 url = "https://popdata.unhcr.org"))
 }

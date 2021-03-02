@@ -3,7 +3,6 @@
 #' Popdata ASR figures
 #'
 #' @importFrom readr read_csv2
-#' @importFrom janitor clean_names
 #'
 #' @param indicator character, the indicator
 #' @param year integer, the year
@@ -22,8 +21,7 @@ asr <- function(indicator = c("refugees", "refugeeLike",
   res$raise_for_status()
   res$raise_for_ct(type = "text/csv")
   res <- res$parse(encoding = "UTF-8")
-  res <- suppressMessages(read_csv2(res))
-  clean_names(res)
+  suppressMessages(read_csv2(res))
 }
 
 #' Popdata MYSR figures
@@ -31,7 +29,6 @@ asr <- function(indicator = c("refugees", "refugeeLike",
 #' Popdata MYSR figures
 #'
 #' @importFrom readr read_csv2
-#' @importFrom janitor clean_names
 #'
 #' @param indicator character, the indicator
 #' @param year integer, the year
@@ -48,8 +45,7 @@ mysr <- function(indicator = c("refugees", "returnees", "idp",
   res$raise_for_status()
   res$raise_for_ct(type = "text/csv")
   res <- res$parse(encoding = "UTF-8")
-  res <- suppressMessages(read_csv2(res))
-  clean_names(res)
+  suppressMessages(read_csv2(res))
 }
 
 #' Popdata Planning figures
@@ -57,7 +53,6 @@ mysr <- function(indicator = c("refugees", "returnees", "idp",
 #' Popdata Planning figures
 #'
 #' @importFrom readr read_csv2
-#' @importFrom janitor clean_names
 #'
 #' @param indicator character, the indicator
 #' @param year integer, the year
@@ -73,6 +68,5 @@ planning <- function(indicator = c("coo", "ppg", "specific"),
   res$raise_for_status()
   res$raise_for_ct(type = "text/csv")
   res <- res$parse(encoding = "UTF-8")
-  res <- suppressMessages(read_csv2(res))
-  clean_names(res)
+  suppressMessages(read_csv2(res))
 }

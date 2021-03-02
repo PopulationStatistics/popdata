@@ -21,7 +21,6 @@ Imports:
     crul (>= 1.1),
     jsonlite,
     readr,
-    janitor,
     memoise,
     cachem,
     tibble
