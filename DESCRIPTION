@@ -34,6 +34,7 @@ Suggests:
     covr,
     webmockr,
     vcr
+Remotes: rstudio/chromote
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Encoding: UTF-8
