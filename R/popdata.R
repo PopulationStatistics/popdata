@@ -1,72 +1,54 @@
-#' Popdata ASR figures
+#' Popdata figures
 #'
-#' Popdata ASR figures
+#' Popdata figures
 #'
 #' @importFrom readr read_csv2
 #'
-#' @param indicator character, the indicator
+#' @param report character, the type of report asr, mysr or pf
+#' @param table character, the indicator refugees, refugeeLike, returnees,
+#' demographics, idp, rsd, stateless, vda, other, hostcommunity, coo, ppg or specifics
 #' @param year integer, the year
 #'
 #' @return A tibble
 #' @export
-asr <- function(indicator = c("refugees", "refugeeLike",
+popdata <- function(report = c("asr", "mysr", "pf"),
+                    table = c("refugees", "refugeeLike",
                               "returnees", "demographics", "idp",
                               "rsd", "stateless", "vda", "other",
-                              "hostcommunity"),
+                              "hostcommunity", "coo", "ppg", "specific"),
                     year = 2020) {
-  indicator <- match.arg(indicator)
-  path <- sprintf("/admin/export/download/asr/%s/%s", indicator, year)
-  cli <- popdata_connect()
-  res <- cli$get(path)
-  res$raise_for_status()
-  res$raise_for_ct(type = "text/csv")
+  report <- match.arg(report)
+  path <- sprintf("/admin/export/download/%s/%s/%s",
+                  report, table, year)
+  res <- pd_GET(path)
   res <- res$parse(encoding = "UTF-8")
   suppressMessages(read_csv2(res))
 }
 
-#' Popdata MYSR figures
-#'
-#' Popdata MYSR figures
-#'
-#' @importFrom readr read_csv2
-#'
-#' @param indicator character, the indicator
-#' @param year integer, the year
-#'
-#' @return A tibble
+#' @rdname popdata
 #' @export
-mysr <- function(indicator = c("refugees", "returnees", "idp",
-                               "rsd", "stateless"),
-                 year = 2020) {
-  indicator <- match.arg(indicator)
-  path <- sprintf("/admin/export/download/mysr/%s/%s", indicator, year)
-  cli <- popdata_connect()
-  res <- cli$get(path)
-  res$raise_for_status()
-  res$raise_for_ct(type = "text/csv")
-  res <- res$parse(encoding = "UTF-8")
-  suppressMessages(read_csv2(res))
+pd_asr <- function(table = c("refugees", "refugeeLike",
+                             "returnees", "demographics", "idp",
+                             "rsd", "stateless", "vda", "other",
+                             "hostcommunity"),
+                   year = 2020) {
+  table <- match.arg(table)
+  popdata(report = "asr", table = table, year = year)
 }
 
-#' Popdata Planning figures
-#'
-#' Popdata Planning figures
-#'
-#' @importFrom readr read_csv2
-#'
-#' @param indicator character, the indicator
-#' @param year integer, the year
-#'
-#' @return A tibble
+#' @rdname popdata
 #' @export
-planning <- function(indicator = c("coo", "ppg", "specific"),
-                     year = 2020) {
-  indicator <- match.arg(indicator)
-  path <- sprintf("/admin/export/download/pf/%s/%s", indicator, year)
-  cli <- popdata_connect()
-  res <- cli$get(path)
-  res$raise_for_status()
-  res$raise_for_ct(type = "text/csv")
-  res <- res$parse(encoding = "UTF-8")
-  suppressMessages(read_csv2(res))
+pd_mysr <- function(table = c("refugees", "returnees", "idp",
+                              "rsd", "stateless", "other"),
+                    year = 2020) {
+  table <- match.arg(table)
+  popdata(report = "mysr", table = table, year = year)
+}
+
+#' @rdname popdata
+#' @export
+pd_pf <- function(table = c("coo", "ppg", "specific"),
+                  year = 2020) {
+  table <- match.arg(table)
+  popdata(report = "pf", table = table, year = year)
 }

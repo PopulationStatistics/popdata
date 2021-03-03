@@ -1,16 +1,18 @@
-.popdata_cm <- NULL # nocov start
+.pd_cm <- NULL # nocov start
+.pd_cache <- NULL
 
 #' @noRd
+#' @importFrom hoardr hoard
 #' @importFrom memoise memoise
 #' @importFrom cachem cache_mem
 .onLoad <- function(libname, pkgname) {
-  .popdata_cm <<- cachem::cache_mem()
-  asr <<- memoise::memoise(asr,
-                           cache = .popdata_cm)
-  mysr <<- memoise::memoise(mysr,
-                            cache = .popdata_cm)
-  planning <<- memoise::memoise(planning,
-                                cache = .popdata_cm)
-  popdata_connect <<- memoise::memoise(popdata_connect,
-                                      cache = .popdata_cm)
+  x <- hoardr::hoard()
+  x$cache_path_set("popdata")
+  path <- x$cache_path_get()
+  if (!dir.exists(path))
+    dir.create(path)
+  .pd_cache <<- x
+  .pd_cm <<- cachem::cache_mem(max_age = 60 * 30)
+  popdata <<- memoise::memoise(popdata,
+                               cache = .pd_cm)
 } # nocov end

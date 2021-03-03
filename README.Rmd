@@ -35,44 +35,75 @@ You can get `popdata` from Gitlab or Github (mirror)
 remotes::install_gitlab("dickoa/popdata")
 ```
 
-## popdata: A quick tutorial
+## Using the popdata package
+
 
 ```{r, eval = FALSE}
 library("popdata")
 ```
 
-The `popdata` package requires you to add your `username`, `password` and the session `cookie`.
+`popdata` use the `chromote` package to log into the POPDATA platform and generate all the tokens and cookies needed to connect into the platform. The package`chromote` uses `chrome` as the default browser and if you plan to use `chrome` you can skip what will follow and go directly to the second point (log into the platform).
 
 
+All `chromium` base browsers such as `chromium`, `microsoft edge`, `brave`, `opera`, `vivaldi`, etc. can be used but you tell `chromote` where to find them.
 
-You can store your username and password in your `.Renviron` file or access it by calling `usethis::edit_r_environ()` (assuming you have the `usethis` package installed) and entering:
+You can specify which browser to use by setting the `CHROMOTE_CHROME` variable to the path of the executable of your browser. The `Sys.which` function in `R` can be used to get the path.
 
-```{bash, eval=FALSE, engine="sh"}
-POPDATA_USER=xxxxxxxxxxxxxxxxxx
-POPDATA_PWD=xxxxxxxxxxxxxxxxxx
-```
-
-The third environment variable used is `POPDATA_COOKIE` where you can temporarily store the value of the session cookie.
-
-Once the environment variables set you will need to restart your session.
+On Linux, to have the path to `brave` executable, we can use the following command:
 
 ```{r, eval = FALSE}
-library("popdata")
-popdata_setup(username = "xxxxxxxxxxxx",
-              password = "xxxxxxxxxxxx",
-              cookie = "xxxxxxxxxxxx")
+Sys.which("brave")
+##            brave
+## "/usr/bin/brave"
 ```
 
-If you stored your `username` and `password` in the .Renviron under `POPDATA_USER` and `POPDATA_PWD`, you just need to set your session cookie.
+On Windows, to have the path to `microsoft edge` executable, we can use the following command:
 
 ```{r, eval = FALSE}
-popdata_setup(cookie = "xxxxxxxxxxxx")
+Sys.which("MicrosoftEdge")
+##                                                        MicrosoftEdge
+## "C:\\Users\\dicko\\AppData\\Local\\MICROS~1\\WINDOW~1\\MICROS~1.EXE"
 ```
 
-Now that we are connected to POPDATA, we can download data from the Annual Statistical report.
+Now you can set your environment in your `R` session and proceed. You will need to do it each time you restart your session.
 
 ```{r, eval = FALSE}
-asr(indicator = "refugees", year = 2019)
+Sys.setenv("CHROMOTE_CHROME" = Sys.which("brave"))
+```
+
+where you can temporarily store the value of the session cookie.
+
+One way to have it stored permanently is to use your `.Renviron` file and add  the following entry:
+
+```{r, eval = FALSE}
+## Replace with your own path/browser
+CHROMOTE_CHROME="/usr/bin/brave"
+```
+
+The easiest way to modify it, is to use the `usethis` package access and use  `usethis::edit_r_environ()`.
+
+## Log into POPDATA
+You will need to use `pd_login` to log and store the login cookie in the package cache (`$HOME/.cache/R/popdata` in Unix based distribution).
+
+```{r, eval = FALSE}
+pd_login()
+pd_cache_list()
+## [1] "popdata_azure_cookies.rds"
+```
+
+Now that we have the login cookie, we can generate the session cookie. The login cookie can be reused without any time limit unless you change your UNHCR credential but the session cookie has an expiration date usually around 30 min of activity, so it needs to be renewed from time to time. The session cookie will saved in a temporary environment since his value can change during the same `R` session.
+
+```{r, eval = FALSE}
+pd_session()
+Sys.getenv("POPDATA_COOKIE")
+## [1] "PHPSESSID=xxxxxxxxxxxxxxxxxxxxxx;"
+```
+
+### Read data directly from POPDATA
+Now we can use `popdata`, `pd_asr`, `pd_mysr` or `pd_pf` to get the data from POPDATA.
+
+```{r, eval = FALSE}
+pd_asr(table = "refugees", year = 2019)
 ## # A tibble: 6,214 x 30
 ##    asylum origin yearStartTotal yearStartTotalU… groupRecognition
 ##    <chr>  <chr>           <dbl>            <dbl>            <dbl>
