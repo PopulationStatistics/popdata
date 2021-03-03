@@ -8,9 +8,8 @@
 .onLoad <- function(libname, pkgname) {
   x <- hoardr::hoard()
   x$cache_path_set("popdata")
-  path <- x$cache_path_get()
-  if (!dir.exists(path))
-    dir.create(path)
+  if (!dir.exists( x$cache_path_get()))
+    x$mkdir()
   .pd_cache <<- x
   .pd_cm <<- cachem::cache_mem(max_age = 60 * 30)
   popdata <<- memoise::memoise(popdata,
