@@ -18,7 +18,7 @@ pd_GET <- function(path, cookie = Sys.getenv("POPDATA_COOKIE", ""), quiet = FALS
   res <- tryCatch({res$raise_for_ct(type = "text/csv"); res},
                   error = function(e) {
                     if (!quiet)
-                      message("Your session has expired, generating a new cookie!")
+                      message("No valid popdata session available, generating a session cookie...")
                     pd_session()
                     cookie <- Sys.getenv("POPDATA_COOKIE", "")
                     cli <- HttpClient$new(url = "https://popdata.unhcr.org",
