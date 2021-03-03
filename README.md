@@ -35,50 +35,52 @@ if you plan to use `chrome` you can skip what will follow and go
 directly to the second point (log into the platform).
 
 All `chromium` base browsers such as `chromium`, `microsoft edge`,
-`brave`, `opera`, `vivaldi`, etc. can be used but you tell `chromote`
-where to find them.
+`brave`, `opera`, `vivaldi`, etc. can be used but you need to tell
+`chromote` where to find them.
 
 You can specify which browser to use by setting the `CHROMOTE_CHROME`
-variable to the path of the executable of your browser. The `Sys.which`
-function in `R` can be used to get the path.
+environment variable to the path of the executable of your browser. The
+`Sys.which` function in `R` can be used on Unix system to get the path.
 
-On Linux, to have the path to `brave` executable, we can use the
-following command:
+On Linux, to have the path to the `brave` browser executable, we can use
+the following command:
 
 ``` r
 Sys.which("brave")
 ##            brave
 ## "/usr/bin/brave"
-```
 
-On Windows, to have the path to `microsoft edge` executable, you can the
-task manager to check the path. If you can download `chrome`, it’s much
-easier to setup with it.
-
-Now you can set your environment in your `R` session and proceed. You
-will need to do it each time you restart your session.
-
-``` r
 Sys.setenv("CHROMOTE_CHROME" = "/usr/bin/brave")
 ```
 
-where you can temporarily store the value of the session cookie.
+On Windows, to have the path to `brave` executable, you can the task
+manager to check the path. If you can download or already have `chrome`
+installed, it’s much easier since no setup is required.
 
-One way to have it stored permanently is to use your `.Renviron` file
-and add the following entry:
+![brave\_exe\_img](./inst/img/brave_exe.png)
 
 ``` r
-## Replace with your own path/browser
-CHROMOTE_CHROME="/usr/bin/brave"
+Sys.setenv("CHROMOTE_CHROME" = "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application/brave.exe")
 ```
 
-The easiest way to modify it, is to use the `usethis` package access and
-use `usethis::edit_r_environ()`.
+If you set your environment that way (using `Sys.setenv`), you will need
+to do it each time you restart `R`. One way to have it stored
+permanently is to use your `.Renviron` file and add the following entry:
 
-## Log into POPDATA
+``` r
+CHROMOTE_CHROME="/usr/bin/brave"
+## or
+CHROMOTE_CHROME="C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application/brave.exe"
+```
 
-You will need to use `pd_login` to log and store the login cookie in the
-package cache (`$HOME/.cache/R/popdata` in Unix based distribution).
+The easiest way to add an entry to `.Renviron`, is to use the `usethis`
+package access and use `usethis::edit_r_environ()`.
+
+### Log into POPDATA
+
+Now that `chromote` can access a web browser (preferably `chrome`), you
+can use `pd_login` to log and store the login cookie in the package
+cache (`$HOME/.cache/R/popdata` in Unix based distribution).
 
 ``` r
 pd_login()
@@ -86,8 +88,9 @@ pd_cache_list()
 ## [1] "popdata_azure_cookies.rds"
 ```
 
-Now that we have the login cookie, we can start reading data from
-POPDATA
+As long as you keep this `rds` file in the package cache and if you
+didn’t change your POPDATA username and password, you can keep and just
+**log once**. You can close `R`, use it on multiple sessions, etc.
 
 ### Read data directly from POPDATA
 
