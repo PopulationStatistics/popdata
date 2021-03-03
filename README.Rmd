@@ -92,6 +92,7 @@ Now we can use `popdata`, `pd_asr`, `pd_mysr` or `pd_pf` to get the data from PO
 
 ```{r, eval = FALSE}
 pd_asr(table = "refugees", year = 2019)
+## No valid popdata session available, generating a session cookie...
 ## # A tibble: 6,214 x 30
 ##    asylum origin yearStartTotal yearStartTotalU… groupRecognition
 ##    <chr>  <chr>           <dbl>            <dbl>            <dbl>
@@ -125,7 +126,7 @@ pd_asr(table = "refugees", year = 2019)
 You can use `options(popdata_quiet = FALSE)` to remove the message or use the `quiet` argument in any of `popdata`,  `pd_asr`, `pd_mysr` or `pd_pf`.
 
 ```{r, eval = FALSE}
-pd_asr(table = "refugees", year = 2019, quiet = TRUE)
+ref <- pd_asr(table = "refugees", year = 2019, quiet = TRUE)
 ```
 
 
