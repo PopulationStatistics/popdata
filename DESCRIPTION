@@ -24,6 +24,7 @@ Imports:
     hoardr,
     memoise,
     cachem,
+    chromote,
     tibble
 Suggests:
     roxygen2,
