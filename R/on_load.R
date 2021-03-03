@@ -14,4 +14,5 @@
   .pd_cm <<- cachem::cache_mem(max_age = 60 * 30) ## 30 min
   popdata <<- memoise::memoise(popdata,
                                cache = .pd_cm)
+  options(popdata_quiet = FALSE)
 } # nocov end

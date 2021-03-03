@@ -57,18 +57,12 @@ Sys.which("brave")
 ## "/usr/bin/brave"
 ```
 
-On Windows, to have the path to `microsoft edge` executable, we can use the following command:
-
-```{r, eval = FALSE}
-Sys.which("MicrosoftEdge")
-##                                                        MicrosoftEdge
-## "C:\\Users\\dicko\\AppData\\Local\\MICROS~1\\WINDOW~1\\MICROS~1.EXE"
-```
+On Windows, to have the path to `microsoft edge` executable, you can the task manager to check the path. If you can download `chrome`, it's much easier to setup with it.
 
 Now you can set your environment in your `R` session and proceed. You will need to do it each time you restart your session.
 
 ```{r, eval = FALSE}
-Sys.setenv("CHROMOTE_CHROME" = Sys.which("brave"))
+Sys.setenv("CHROMOTE_CHROME" = "/usr/bin/brave")
 ```
 
 where you can temporarily store the value of the session cookie.
@@ -91,16 +85,10 @@ pd_cache_list()
 ## [1] "popdata_azure_cookies.rds"
 ```
 
-Now that we have the login cookie, we can generate the session cookie. The login cookie can be reused without any time limit unless you change your UNHCR credential but the session cookie has an expiration date usually around 30 min of activity, so it needs to be renewed from time to time. The session cookie will saved in a temporary environment since his value can change during the same `R` session.
-
-```{r, eval = FALSE}
-pd_session()
-Sys.getenv("POPDATA_COOKIE")
-## [1] "PHPSESSID=xxxxxxxxxxxxxxxxxxxxxx;"
-```
+Now that we have the login cookie, we can start reading data from POPDATA
 
 ### Read data directly from POPDATA
-Now we can use `popdata`, `pd_asr`, `pd_mysr` or `pd_pf` to get the data from POPDATA.
+Now we can use `popdata`, `pd_asr`, `pd_mysr` or `pd_pf` to get the data from POPDATA. In the first run, it will generate a session cookie that will be updated when it will expire (approx. 30 min of inactivity).
 
 ```{r, eval = FALSE}
 pd_asr(table = "refugees", year = 2019)
@@ -132,6 +120,12 @@ pd_asr(table = "refugees", year = 2019)
 ## #   yearEndUASC_12_14 <dbl>, yearEndUASC_0_14_total <dbl>,
 ## #   yearEndUASC_15_17 <dbl>, yearEndTotalUnhcrAssisted <dbl>,
 ## #   source <chr>, basis <chr>
+```
+
+You can use `options(popdata_quiet = FALSE)` to remove the message or use the `quiet` argument in any of `popdata`,  `pd_asr`, `pd_mysr` or `pd_pf`.
+
+```{r, eval = FALSE}
+pd_asr(table = "refugees", year = 2019, quiet = TRUE)
 ```
 
 

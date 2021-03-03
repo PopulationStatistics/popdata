@@ -28,7 +28,7 @@ pd_login <- function() {
 #' Get Popdata session token
 #'
 #' @importFrom chromote ChromoteSession
-#' @export
+#' @noRd
 pd_session <- function() {
   pd_cache <- pd_cache_get_dir()
   cookie_file <- file.path(pd_cache,

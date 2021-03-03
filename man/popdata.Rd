@@ -13,21 +13,28 @@ popdata(
   report = c("asr", "mysr", "pf"),
   table = c("refugees", "refugeeLike", "returnees", "demographics", "idp", "rsd",
     "stateless", "vda", "other", "hostcommunity", "coo", "ppg", "specific"),
-  year = 2020
+  year = 2020,
+  quiet = getOption("popdata_quiet")
 )
 
 pd_asr(
-  table = c("refugees", "refugeeLike", "returnees", "demographics", "idp", "rsd",
-    "stateless", "vda", "other", "hostcommunity"),
-  year = 2020
+  table = c("refugees", "refugeelike", "refugeeLike", "returnees", "demographics",
+    "idp", "rsd", "stateless", "vda", "other", "hostcommunity", "hostCommunity"),
+  year = 2020,
+  quiet = getOption("popdata_quiet")
 )
 
 pd_mysr(
   table = c("refugees", "returnees", "idp", "rsd", "stateless", "other"),
-  year = 2020
+  year = 2020,
+  quiet = getOption("popdata_quiet")
 )
 
-pd_pf(table = c("coo", "ppg", "specific"), year = 2020)
+pd_pf(
+  table = c("coo", "ppg", "specific"),
+  year = 2020,
+  quiet = getOption("popdata_quiet")
+)
 }
 \arguments{
 \item{report}{character, the type of report asr, mysr or pf}
@@ -36,6 +43,9 @@ pd_pf(table = c("coo", "ppg", "specific"), year = 2020)
 demographics, idp, rsd, stateless, vda, other, hostcommunity, coo, ppg or specifics}
 
 \item{year}{integer, the year}
+
+\item{quiet}{logical, print message on updating session cookie or not.
+options(popdata_quiet = TRUE) can also be used}
 }
 \value{
 A tibble

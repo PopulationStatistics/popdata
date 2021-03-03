@@ -8,6 +8,8 @@
 #' @param table character, the indicator refugees, refugeeLike, returnees,
 #' demographics, idp, rsd, stateless, vda, other, hostcommunity, coo, ppg or specifics
 #' @param year integer, the year
+#' @param quiet logical, print message on updating session cookie or not.
+#' options(popdata_quiet = TRUE) can also be used
 #'
 #' @return A tibble
 #' @export
@@ -16,39 +18,46 @@ popdata <- function(report = c("asr", "mysr", "pf"),
                               "returnees", "demographics", "idp",
                               "rsd", "stateless", "vda", "other",
                               "hostcommunity", "coo", "ppg", "specific"),
-                    year = 2020) {
+                    year = 2020,
+                    quiet = getOption("popdata_quiet")) {
   report <- match.arg(report)
   path <- sprintf("/admin/export/download/%s/%s/%s",
                   report, table, year)
-  res <- pd_GET(path)
+  res <- pd_GET(path, quiet = quiet)
   res <- res$parse(encoding = "UTF-8")
   suppressMessages(read_csv2(res))
 }
 
 #' @rdname popdata
 #' @export
-pd_asr <- function(table = c("refugees", "refugeeLike",
+pd_asr <- function(table = c("refugees", "refugeelike", "refugeeLike",
                              "returnees", "demographics", "idp",
                              "rsd", "stateless", "vda", "other",
-                             "hostcommunity"),
-                   year = 2020) {
+                             "hostcommunity", "hostCommunity"),
+                   year = 2020,
+                   quiet = getOption("popdata_quiet")) {
   table <- match.arg(table)
-  popdata(report = "asr", table = table, year = year)
+  popdata(report = "asr", table = table,
+          year = year, quiet = quiet)
 }
 
 #' @rdname popdata
 #' @export
 pd_mysr <- function(table = c("refugees", "returnees", "idp",
                               "rsd", "stateless", "other"),
-                    year = 2020) {
+                    year = 2020,
+                    quiet = getOption("popdata_quiet")) {
   table <- match.arg(table)
-  popdata(report = "mysr", table = table, year = year)
+  popdata(report = "mysr", table = table,
+          year = year, quiet = quiet)
 }
 
 #' @rdname popdata
 #' @export
 pd_pf <- function(table = c("coo", "ppg", "specific"),
-                  year = 2020) {
+                  year = 2020,
+                  quiet = getOption("popdata_quiet")) {
   table <- match.arg(table)
-  popdata(report = "pf", table = table, year = year)
+  popdata(report = "pf", table = table,
+          year = year, quiet = quiet)
 }
