@@ -28,13 +28,13 @@ remotes::install_gitlab("dickoa/popdata")
 library("popdata")
 ```
 
-`popdata` use the `chromote` package to log into the POPDATA platform
+`popdata` uses the `chromote` package to log into the POPDATA platform
 and generate all the tokens and cookies needed to connect into the
 platform. The package`chromote` uses `chrome` as the default browser and
 if you plan to use `chrome` you can skip what will follow and go
 directly to the second point (log into the platform).
 
-All `chromium` base browsers such as `chromium`, `microsoft edge`,
+All `chromium` based browsers such as `chromium`, `microsoft edge`,
 `brave`, `opera`, `vivaldi`, etc. can be used but you need to tell
 `chromote` where to find them.
 
@@ -53,9 +53,8 @@ Sys.which("brave")
 Sys.setenv("CHROMOTE_CHROME" = "/usr/bin/brave")
 ```
 
-On Windows, to have the path to `brave` executable, you can the task
-manager to check the path. If you can download or already have `chrome`
-installed, it’s much easier since no setup is required.
+On Windows, to have the path to `brave` executable, you can use the task
+manager to check the path.
 
 ![brave\_exe\_img](./inst/img/brave_exe.png)
 
@@ -63,9 +62,13 @@ installed, it’s much easier since no setup is required.
 Sys.setenv("CHROMOTE_CHROME" = "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application/brave.exe")
 ```
 
-If you set your environment that way (using `Sys.setenv`), you will need
-to do it each time you restart `R`. One way to have it stored
-permanently is to use your `.Renviron` file and add the following entry:
+On Windows, if you can download or already have `chrome` installed, it’s
+much easier to use it since no setup is required (i.e no environment to
+set).
+
+When you set your environment `Sys.setenv`, you will need to do it each
+time you restart `R`. One way to have it stored permanently is to use
+your `.Renviron` file and add the following entry:
 
 ``` r
 CHROMOTE_CHROME="/usr/bin/brave"
@@ -84,19 +87,22 @@ cache (`$HOME/.cache/R/popdata` in Unix based distribution).
 
 ``` r
 pd_login()
+
+## Check that a file was stored
 pd_cache_list()
 ## [1] "popdata_azure_cookies.rds"
 ```
 
-As long as you keep this `rds` file in the package cache and if you
-didn’t change your POPDATA username and password, you can keep and just
-**log once**. You can close `R`, use it on multiple sessions, etc.
+As long as you keep this `rds` file in the package cache and as long as
+you don’t change your POPDATA username and password, you can keep this
+file to interact with `popdata`, no need to re-log using `pd_login`.
 
 ### Read data directly from POPDATA
 
-Now we can use `popdata`, `pd_asr`, `pd_mysr` or `pd_pf` to get the data
-from POPDATA. In the first run, it will generate a session cookie that
-will be updated when it will expire (approx. 30 min of inactivity).
+Once logged-in, you can the `popdata` function or one of its wrapper
+`pd_asr`, `pd_mysr` or `pd_pf` to get the data you need from POPDATA. In
+the first run, it will generate a session cookie that will need be
+updated if you inactive for a long period of time (approx. 30 min).
 
 ``` r
 pd_asr(table = "refugees", year = 2019)
