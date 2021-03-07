@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# popdata <img src="https://gitlab.com/dickoa/ridl/-/raw/master/inst/img/hex_popdata.png" align="right" height="139" />
+# popdata <img src="https://gitlab.com/dickoa/popdata/-/raw/master/inst/img/hex_popdata.png" align="right" height="139" />
 
 `popdata` is an R client for the [UNHCR POPDATA
 platform](https://popdata.unhcr.org).
