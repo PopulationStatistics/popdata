@@ -6,12 +6,12 @@
 `popdata` is an R client for the [UNHCR POPDATA
 platform](https://popdata.unhcr.org).
 
-## Introduction
+### Introduction
 
 The [UNHCR POPDATA platform](https://popdata.unhcr.org) is UNHCR
 internal platform for population statistics.
 
-## Installation
+### Installation
 
 This package is not on yet on CRAN and to install it, you will need the
 [`remotes`](https://github.com/r-lib/remotes) package. You can get
@@ -22,7 +22,7 @@ This package is not on yet on CRAN and to install it, you will need the
 remotes::install_gitlab("dickoa/popdata")
 ```
 
-## Using the popdata package
+### Using the popdata package
 
 ``` r
 library("popdata")
@@ -79,7 +79,7 @@ CHROMOTE_CHROME="C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application/br
 The easiest way to add an entry to `.Renviron`, is to use the `usethis`
 package access and use `usethis::edit_r_environ()`.
 
-### Log into POPDATA
+#### Log into POPDATA
 
 Now that `chromote` can access a web browser (preferably `chrome`), you
 can use `pd_login` to log and store the login cookie in the package
@@ -97,7 +97,7 @@ As long as you keep this `rds` file in the package cache and as long as
 you don’t change your POPDATA username and password, you can keep this
 file to interact with `popdata`, no need to re-log using `pd_login`.
 
-### Read data directly from POPDATA
+#### Read data directly from POPDATA
 
 Once logged-in, you can the `popdata` function or one of its wrapper
 `pd_asr`, `pd_mysr` or `pd_pf` to get the data you need from POPDATA. In
