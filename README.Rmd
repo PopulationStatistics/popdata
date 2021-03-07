@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# popdata
+# popdata <img src="https://gitlab.com/dickoa/ridl/-/raw/master/inst/img/hex_popdata.png" align="right" height="139" />
 
 `popdata` is an R client for the [UNHCR POPDATA platform](https://popdata.unhcr.org).
 
@@ -30,7 +30,7 @@ The [UNHCR POPDATA platform](https://popdata.unhcr.org) is UNHCR internal platfo
 This package is not on yet on CRAN and to install it, you will need the [`remotes`](https://github.com/r-lib/remotes) package.
 You can get `popdata` from Gitlab or Github (mirror)
 
-```{r}
+```{r, eval = FALSE}
 ## install.packages("remotes")
 remotes::install_gitlab("dickoa/popdata")
 ```
