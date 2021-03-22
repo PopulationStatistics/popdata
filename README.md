@@ -15,11 +15,11 @@ internal platform for population statistics.
 
 This package is not on yet on CRAN and to install it, you will need the
 [`remotes`](https://github.com/r-lib/remotes) package. You can get
-`popdata` from Gitlab or Github (mirror)
+`popdata` from Github:
 
 ``` r
 ## install.packages("remotes")
-remotes::install_gitlab("dickoa/popdata")
+remotes::install_github("populationstatistics/popdata")
 ```
 
 ### Using the popdata package

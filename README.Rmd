@@ -28,11 +28,11 @@ The [UNHCR POPDATA platform](https://popdata.unhcr.org) is UNHCR internal platfo
 ### Installation
 
 This package is not on yet on CRAN and to install it, you will need the [`remotes`](https://github.com/r-lib/remotes) package.
-You can get `popdata` from Gitlab or Github (mirror)
+You can get `popdata` from Github:
 
 ```{r, eval = FALSE}
 ## install.packages("remotes")
-remotes::install_gitlab("dickoa/popdata")
+remotes::install_github("populationstatistics/popdata")
 ```
 
 ### Using the popdata package
