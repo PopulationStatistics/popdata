@@ -25,7 +25,7 @@ popdata <- function(report = c("asr", "mysr", "pf"),
                   report, table, year)
   res <- pd_GET(path, quiet = quiet)
   res <- res$parse(encoding = "UTF-8")
-  suppressMessages(read_csv2(res))
+  suppressMessages(read_csv2(res, na = c("", "NA", "N/A"), guess_max = 1e5))
 }
 
 #' @rdname popdata
