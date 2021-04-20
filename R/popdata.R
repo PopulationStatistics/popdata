@@ -60,3 +60,29 @@ pd_pf <- function(table = c("coo", "ppg", "specific"),
   popdata(report = "pf", table = table,
           year = year, quiet = quiet)
 }
+
+
+#' Augment data-frame with country metadata
+#' 
+#' Augment data-frame with country metadata
+#' 
+#' @param data tibble, dataset to augment
+#' @param col unquoted expression, column containing UNHCR code
+#' @param prefix character, string to prepend to metadata column names 
+#' 
+#' @return a tibble
+#' 
+#' @importFrom dplyr left_join select relocate rename_with
+#' @importFrom stringr str_c
+#' 
+#' @export
+pd_augment <- function(data, col, prefix = NULL) {
+  res <- left_join(data, select(pd_countries, {{col}} := code, region, bureau, iso, name),
+                   by = as.character(as.list(match.call())[-1]))
+  res <- relocate(res, region, bureau, iso, name, .before = {{col}})
+  
+  if (!is.null(prefix))
+    res <- rename_with(res, ~str_c(prefix, ., sep = "_"), region:name)
+  
+  res
+}
