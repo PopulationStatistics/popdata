@@ -29,3 +29,12 @@ pd_GET <- function(path, cookie = Sys.getenv("POPDATA_COOKIE", ""), quiet = FALS
                   })
   res
 }
+
+#' @noRd
+#' @importFrom readr read_delim locale
+read_pd_csv <- function(x)
+  suppressMessages(read_delim(x,
+                              na = c("", "NA", "N/A"),
+                              guess_max = 1e+05,
+                              delim = ";",
+                              locale = locale(decimal_mark = ".")))
