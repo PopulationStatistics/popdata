@@ -78,7 +78,7 @@ pd_pf <- function(table = c("coo", "ppg", "specific"),
 #' @export
 pd_augment <- function(data, col, prefix = NULL) {
   res <- left_join(data, select(pd_countries, {{col}} := code, region, bureau, iso, name),
-                   by = as.character(as.list(match.call())[-1]))
+                   by = as.character(as.list(match.call())[-1][2]))
   res <- relocate(res, region, bureau, iso, name, .before = {{col}})
   
   if (!is.null(prefix))
