@@ -27,7 +27,9 @@ Imports:
     chromote,
     tibble,
     dplyr,
-    stringr
+    stringr,
+    tidyr,
+    tidyselect
 Suggests:
     roxygen2,
     knitr,
