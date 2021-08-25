@@ -25,7 +25,8 @@ pd_asr(
 )
 
 pd_mysr(
-  table = c("refugees", "returnees", "idp", "rsd", "stateless", "other"),
+  table = c("refugees", "returnees", "idp", "rsd", "stateless", "other", "vda",
+    "hostCommunity"),
   year = 2020,
   quiet = getOption("popdata_quiet")
 )
