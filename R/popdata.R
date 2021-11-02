@@ -44,7 +44,7 @@ pd_asr <- function(table = c("refugees", "refugeelike", "refugeeLike",
 #' @export
 pd_mysr <- function(table = c("refugees", "refugeeLike","returnees", "idp",
                               "rsd", "stateless", "other", "vda", "hostCommunity"),
-                    year = 2020,
+                    year = 2021,
                     quiet = getOption("popdata_quiet")) {
   table <- match.arg(table)
   popdata(report = "mysr", table = table,
