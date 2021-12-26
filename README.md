@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# popdata <img src="https://gitlab.com/dickoa/popdata/-/raw/master/inst/img/hex_popdata.png" align="right" height="139" />
+# popdata <img src="man/figures/hex_popdata.png" align="right" width="140" />
 
 `popdata` is an R client for the [UNHCR POPDATA
 platform](https://popdata.unhcr.org).
@@ -56,7 +56,7 @@ Sys.setenv("CHROMOTE_CHROME" = "/usr/bin/brave")
 On Windows, to have the path to `brave` executable, you can use the task
 manager to check the path.
 
-![brave\_exe\_img](./inst/img/brave_exe.png)
+![brave_exe_img](man/figures/brave_exe.png)
 
 ``` r
 Sys.setenv("CHROMOTE_CHROME" = "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application/brave.exe")
