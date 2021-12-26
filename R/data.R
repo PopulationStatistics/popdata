@@ -1,7 +1,7 @@
 #' Country metadata
-#' 
+#'
 #' Information on the countries covered by the UNHCR Population Statistics Reference platform.
-#' 
+#'
 #' @format A data-frame with 226 rows and 15 variables:
 #' \describe{
 #'   \item{bureau}{The UNHCR bureau name.}
@@ -20,6 +20,6 @@
 #'   \item{majorAreaFr}{The UNSD region in French.}
 #'   \item{regionFr}{The UNSD sub-region in French.}
 #' }
-#' 
+#'
 #' @source \url{https://api.unhcr.org/population/v1/}
 "pd_countries"

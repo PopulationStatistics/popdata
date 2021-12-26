@@ -2,7 +2,7 @@ Package: popdata
 Title: A Client for the UNHCR Popdata Platform
 Description: Client for the UNHCR Popdata Platform
     <https://popdata.unhcr.org>. Allows to download popdata datasets into R.
-Version: 0.1.0.9000
+Version: 0.2.9000
 Authors@R: c(person(given = "Ahmadou",
                     family = "Dicko",
 	   	    email = "mail@ahmadoudicko.com",
@@ -29,7 +29,8 @@ Imports:
     chromote,
     tibble,
     dplyr,
-    stringr
+    stringr,
+    rlang
 Suggests:
     roxygen2,
     knitr,
