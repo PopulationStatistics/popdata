@@ -93,6 +93,6 @@ pd_cache_clear <- function() {
 #'
 #' @export
 pd_memoise_clear <- function() {
-  assert_memoise_cache(.pd_cm)
-  .pd_cm$reset()
+  assert_memoise_cache(.pd_cachemem)
+  .pd_cachemem$reset()
 }

@@ -1,7 +1,6 @@
-#' Popdata figures
+#' Access UNHCR Popdata platform figures
 #'
-#' Popdata figures
-#'
+#' Access UNHCR Popdata platform figures
 #'
 #' @param report character, the type of report asr, mysr or pf
 #' @param table character, the indicator refugees, refugeeLike, returnees,

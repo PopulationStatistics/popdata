@@ -53,7 +53,7 @@ A tibble
 \description{
 R client for UNHCR popdata
 
-Popdata figures
+Access UNHCR Popdata platform figures
 }
 \author{
 \email{mail@ahmadoudicko.com}

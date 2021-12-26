@@ -1,4 +1,4 @@
-.pd_cm <- NULL # nocov start
+.pd_cachemem <- NULL # nocov start
 .pd_cache <- NULL
 
 #' @noRd
@@ -11,8 +11,8 @@
   if (!dir.exists( x$cache_path_get()))
     x$mkdir()
   .pd_cache <<- x
-  .pd_cm <<- cachem::cache_mem(max_age = 60 * 30) ## 30 min
+  .pd_cachemem <<- cachem::cache_mem(max_age = 60 * 30) ## 30 min
   popdata <<- memoise::memoise(popdata,
-                               cache = .pd_cm)
+                               cache = .pd_cachemem)
   options(popdata_quiet = FALSE)
 } # nocov end

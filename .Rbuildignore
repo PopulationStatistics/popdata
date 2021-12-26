@@ -1,3 +1,8 @@
 ^README\.Rmd$
 ^README\.html$
 ^LICENSE\.md$
+^\.gitlab\-ci\.yml$
+^CODE_OF_CONDUCT\.md$
+^_pkgdown\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
