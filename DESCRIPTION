@@ -27,7 +27,9 @@ Imports:
     memoise,
     cachem,
     chromote,
-    tibble
+    tibble,
+    dplyr,
+    stringr
 Suggests:
     roxygen2,
     knitr,

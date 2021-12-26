@@ -41,9 +41,9 @@ pd_asr <- function(table = c("refugees", "refugeelike", "refugeeLike",
 
 #' @rdname popdata
 #' @export
-pd_mysr <- function(table = c("refugees", "returnees", "idp",
-                              "rsd", "stateless", "other"),
-                    year = 2020,
+pd_mysr <- function(table = c("refugees", "refugeeLike","returnees", "idp",
+                              "rsd", "stateless", "other", "vda", "hostCommunity"),
+                    year = 2021,
                     quiet = getOption("popdata_quiet")) {
   table <- match.arg(table)
   popdata(report = "mysr", table = table,
@@ -58,4 +58,30 @@ pd_pf <- function(table = c("coo", "ppg", "specific"),
   table <- match.arg(table)
   popdata(report = "pf", table = table,
           year = year, quiet = quiet)
+}
+
+
+#' Augment data-frame with country metadata
+#' 
+#' Augment data-frame with country metadata
+#' 
+#' @param data tibble, dataset to augment
+#' @param col unquoted expression, column containing UNHCR code
+#' @param prefix character, string to prepend to metadata column names 
+#' 
+#' @return a tibble
+#' 
+#' @importFrom dplyr left_join select relocate rename_with
+#' @importFrom stringr str_c
+#' 
+#' @export
+pd_augment <- function(data, col, prefix = NULL) {
+  res <- left_join(data, select(pd_countries, {{col}} := code, region, bureau, iso, name),
+                   by = as.character(as.list(match.call())[-1][2]))
+  res <- relocate(res, region, bureau, iso, name, .before = {{col}})
+  
+  if (!is.null(prefix))
+    res <- rename_with(res, ~str_c(prefix, ., sep = "_"), region:name)
+  
+  res
 }

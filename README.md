@@ -145,6 +145,39 @@ use the `quiet` argument in any of `popdata`, `pd_asr`, `pd_mysr` or
 ref <- pd_asr(table = "refugees", year = 2019, quiet = TRUE)
 ```
 
+The data returned by the server uses UNHCR country codes. Use
+`pd_augment()` to augment the results with basic country metadata.
+
+``` r
+pd_augment(ref, origin, prefix = "coo")
+## # A tibble: 6,214 x 35
+##    asylum coo_region   coo_bureau      coo_iso coo_name     origin yearStartTotal yearStartTotalUnhc~
+##    <chr>  <chr>        <chr>           <chr>   <chr>        <chr>           <dbl>               <dbl>
+##  1 AFG    Southern As~ Asia and the P~ IRN     Iran (Islam~ IRN                34                  34
+##  2 AFG    Western Asia Middle East an~ IRQ     Iraq         IRQ                 1                   1
+##  3 AFG    Southern As~ Asia and the P~ PAK     Pakistan     PAK             72194               72194
+##  4 ALB    Northern Af~ Middle East an~ EGY     Egypt        ARE                 3                   3
+##  5 ALB    Eastern Eur~ Europe          BGR     Bulgaria     BUL                 1                   1
+##  6 ALB    Eastern Asia Asia and the P~ CHN     China        CHI                12                  12
+##  7 ALB    Middle Afri~ Southern Africa COD     Dem. Rep. o~ COD                 3                   3
+##  8 ALB    South Ameri~ The Americas    GUF     French Guia~ FGU                 0                   0
+##  9 ALB    Western Asia Middle East an~ PSE     State of Pa~ GAZ                14                  14
+## 10 ALB    Southern As~ Asia and the P~ IND     India        IND                 0                   0
+## # ... with 6,204 more rows, and 27 more variables: groupRecognition <dbl>,
+## #   temporaryProtection <dbl>, individualRecognition <dbl>, resettlementArrivals <dbl>,
+## #   births <dbl>, increasesOther <dbl>, increasesTotal <dbl>,
+## #   decreasesVoluntaryRepatriationTotal <dbl>,
+## #   decreasesVoluntaryRepatriationTotalUnhcrAssisted <dbl>, decreasesResettlementTotal <dbl>,
+## #   decreasesResettlementTotalUnhcrAssisted <dbl>, cessation <dbl>, naturalization <dbl>,
+## #   deaths <dbl>, decreasesOther <dbl>, decreasesTotal <dbl>, yearEndTotal <dbl>,
+## #   yearEndUASCTotal <dbl>, yearEndUASC_0_4 <dbl>, yearEndUASC_5_11 <dbl>, yearEndUASC_12_14 <dbl>,
+## #   yearEndUASC_0_14_total <dbl>, yearEndUASC_15_17 <dbl>, yearEndUASCFemale <dbl>,
+## #   yearEndTotalUnhcrAssisted <dbl>, source <chr>, basis <chr>
+```
+
+The full dataset with the country metadata is exported by the package as
+`pd_countries`.
+
 ## Meta
 
 -   Please [report any issues or
