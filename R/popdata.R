@@ -15,8 +15,9 @@ popdata <- function(report = c("asr", "mysr", "pf"),
                     table = c("refugees", "refugeeLike",
                               "returnees", "demographics", "idp",
                               "rsd", "stateless", "vda", "other",
-                              "hostcommunity", "coo", "ppg", "specific"),
-                    year = 2020,
+                              "hostcommunity", "coo", "ppg", "specific",
+                              "as2", "comments"),
+                    year = 2021,
                     quiet = getOption("popdata_quiet")) {
   report <- match.arg(report)
   path <- sprintf("/admin/export/download/%s/%s/%s",
@@ -31,8 +32,9 @@ popdata <- function(report = c("asr", "mysr", "pf"),
 pd_asr <- function(table = c("refugees", "refugeelike", "refugeeLike",
                              "returnees", "demographics", "idp",
                              "rsd", "stateless", "vda", "other",
-                             "hostcommunity", "hostCommunity"),
-                   year = 2020,
+                             "hostcommunity", "hostCommunity",
+                             "as2", "comments"),
+                   year = 2021,
                    quiet = getOption("popdata_quiet")) {
   table <- match.arg(table)
   popdata(report = "asr", table = table,
@@ -42,8 +44,9 @@ pd_asr <- function(table = c("refugees", "refugeelike", "refugeeLike",
 #' @rdname popdata
 #' @export
 pd_mysr <- function(table = c("refugees", "refugeeLike","returnees", "idp",
-                              "rsd", "stateless", "other", "vda", "hostCommunity"),
-                    year = 2021,
+                              "rsd", "stateless", "other", "vda", "hostCommunity",
+                              "as2", "comments"),
+                    year = 2022,
                     quiet = getOption("popdata_quiet")) {
   table <- match.arg(table)
   popdata(report = "mysr", table = table,
