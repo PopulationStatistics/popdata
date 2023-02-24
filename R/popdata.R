@@ -4,7 +4,7 @@
 #'
 #' @param report character, the type of report asr, mysr or pf
 #' @param table character, the indicator refugees, refugeeLike, returnees,
-#' demographics, idp, rsd, stateless, vda, other, hostcommunity, coo, ppg or specifics
+#' demographics, idp, rsd, stateless, oip, other, hostcommunity, coo, ppg or specifics
 #' @param year integer, the year
 #' @param quiet logical, print message on updating session cookie or not.
 #' options(popdata_quiet = TRUE) can also be used
@@ -14,7 +14,7 @@
 popdata <- function(report = c("asr", "mysr", "pf"),
                     table = c("refugees", "refugeeLike",
                               "returnees", "demographics", "idp",
-                              "rsd", "stateless", "vda", "other",
+                              "rsd", "stateless", "oip", "other",
                               "hostcommunity", "coo", "ppg", "specific",
                               "as2", "comments"),
                     year = 2021,
@@ -31,7 +31,7 @@ popdata <- function(report = c("asr", "mysr", "pf"),
 #' @export
 pd_asr <- function(table = c("refugees", "refugeelike", "refugeeLike",
                              "returnees", "demographics", "idp",
-                             "rsd", "stateless", "vda", "other",
+                             "rsd", "stateless", "oip", "other",
                              "hostcommunity", "hostCommunity",
                              "as2", "comments"),
                    year = 2021,
