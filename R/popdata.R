@@ -17,7 +17,7 @@ popdata <- function(report = c("asr", "mysr", "pf"),
                               "rsd", "stateless", "oip", "other",
                               "hostcommunity", "coo", "ppg", "specific",
                               "as2", "comments"),
-                    year = 2021,
+                    year = 2022,
                     quiet = getOption("popdata_quiet")) {
   report <- match.arg(report)
   path <- sprintf("/admin/export/download/%s/%s/%s",
@@ -34,7 +34,7 @@ pd_asr <- function(table = c("refugees", "refugeelike", "refugeeLike",
                              "rsd", "stateless", "oip", "other",
                              "hostcommunity", "hostCommunity",
                              "as2", "comments"),
-                   year = 2021,
+                   year = 2022,
                    quiet = getOption("popdata_quiet")) {
   table <- match.arg(table)
   popdata(report = "asr", table = table,
