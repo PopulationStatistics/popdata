@@ -95,4 +95,18 @@ pd_augment <- function(data, col, prefix = NULL) {
   res
 }
 
+#' @importFrom crul HttpClient auth
+#' @importFrom jsonlite fromJSON
+#' @importFrom tibble as_tibble
+#' @export
+pd_map <- function(report = c("asr", "mysr"),
+                   quiet = getOption("popdata_quiet")) {
+  report <- match.arg(report)
+  path <- sprintf("/complianceMapData/%s", report)
+  res <- pd_GET(path, quiet = quiet)
+  res <- res$parse(encoding = "UTF-8")
+  res <- fromJSON(res)
+  as_tibble(res)
+}
+
 utils::globalVariables("pd_countries")

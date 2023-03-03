@@ -9,13 +9,14 @@ assert_memoise_cache <- function(x)
     stop("Not a `cachem` cache object", call. = FALSE)
 
 #' @noRd
-#' @importFrom crul HttpClient auth
+#' @importFrom crul HttpClient auth url_build
 pd_GET <- function(path, cookie = Sys.getenv("POPDATA_COOKIE", ""), quiet = FALSE) {
-  cli <- HttpClient$new(url = "https://popdata.unhcr.org",
+  baseurl <- "https://popdata.unhcr.org"
+  cli <- HttpClient$new(url = baseurl,
                         opts = list(cookie = cookie))
   res <- cli$get(path)
   res$raise_for_status()
-  res <- tryCatch({res$raise_for_ct(type = "text/csv"); res},
+  res <- tryCatch({stopifnot(res$url == url_build(baseurl, path)); res},
                   error = function(e) {
                     if (!quiet)
                       message("Your session cookie expired, generating a new one...")
@@ -25,7 +26,7 @@ pd_GET <- function(path, cookie = Sys.getenv("POPDATA_COOKIE", ""), quiet = FALS
                                           opts = list(cookie = cookie))
                     res <- cli$get(path)
                     res$raise_for_status()
-                    tryCatch({res$raise_for_ct(type = "text/csv"); res},
+                    tryCatch({stopifnot(res$url == url_build(baseurl, path)); res},
                              error = function(e) {
                                stop("Can't access the platform\nYou need log into popdata using 'pd_login' and try again!", call. = FALSE)
                              })

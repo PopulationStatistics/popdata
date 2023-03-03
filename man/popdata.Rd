@@ -12,22 +12,24 @@
 popdata(
   report = c("asr", "mysr", "pf"),
   table = c("refugees", "refugeeLike", "returnees", "demographics", "idp", "rsd",
-    "stateless", "vda", "other", "hostcommunity", "coo", "ppg", "specific"),
-  year = 2020,
+    "stateless", "oip", "other", "hostcommunity", "coo", "ppg", "specific", "as2",
+    "comments"),
+  year = 2022,
   quiet = getOption("popdata_quiet")
 )
 
 pd_asr(
-  table = c("refugees", "refugeelike", "refugeeLike", "returnees", "demographics",
-    "idp", "rsd", "stateless", "vda", "other", "hostcommunity", "hostCommunity"),
-  year = 2020,
+  table = c("refugees", "refugeelike", "refugeeLike", "returnees", "demographics", "idp",
+    "rsd", "stateless", "oip", "other", "hostcommunity", "hostCommunity", "as2",
+    "comments"),
+  year = 2022,
   quiet = getOption("popdata_quiet")
 )
 
 pd_mysr(
   table = c("refugees", "refugeeLike", "returnees", "idp", "rsd", "stateless", "other",
-    "vda", "hostCommunity"),
-  year = 2021,
+    "oip", "hostCommunity", "as2", "comments"),
+  year = 2022,
   quiet = getOption("popdata_quiet")
 )
 
@@ -41,7 +43,7 @@ pd_pf(
 \item{report}{character, the type of report asr, mysr or pf}
 
 \item{table}{character, the indicator refugees, refugeeLike, returnees,
-demographics, idp, rsd, stateless, vda, other, hostcommunity, coo, ppg or specifics}
+demographics, idp, rsd, stateless, oip, other, hostcommunity, coo, ppg or specifics}
 
 \item{year}{integer, the year}
 
