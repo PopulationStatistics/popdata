@@ -106,7 +106,7 @@ pd_map <- function(report = c("asr", "mysr"),
   res <- pd_GET(path, quiet = quiet)
   res <- res$parse(encoding = "UTF-8")
   res <- fromJSON(res)
-  as_tibble(res)
+  pd_augment(as_tibble(res)[, c("code", "status")], code)
 }
 
 utils::globalVariables("pd_countries")
