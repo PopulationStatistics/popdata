@@ -102,7 +102,7 @@ pd_augment <- function(data, col, prefix = NULL) {
 pd_map <- function(report = c("asr", "mysr"),
                    quiet = getOption("popdata_quiet")) {
   report <- match.arg(report)
-  path <- sprintf("/complianceMapData/%s", report)
+  path <- sprintf("/complianceMapData/2/%s", report)
   res <- pd_GET(path, quiet = quiet)
   res <- res$parse(encoding = "UTF-8")
   res <- fromJSON(res)
