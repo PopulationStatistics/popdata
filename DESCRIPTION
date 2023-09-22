@@ -2,7 +2,7 @@ Package: popdata
 Title: A Client for the UNHCR Popdata Platform
 Description: Client for the UNHCR Popdata Platform
     <https://popdata.unhcr.org>. Allows to download popdata datasets into R.
-Version: 0.2.9000
+Version: 0.4.9000
 Authors@R: c(person(given = "Ahmadou",
                     family = "Dicko",
 	   	    email = "mail@ahmadoudicko.com",
@@ -26,7 +26,7 @@ Imports:
     hoardr,
     memoise,
     cachem,
-    chromote,
+    chromote (>= 0.1.2),
     tibble,
     dplyr,
     stringr,
@@ -39,11 +39,10 @@ Suggests:
     covr,
     webmockr,
     vcr
-Remotes: rstudio/chromote
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Encoding: UTF-8
 Language: en-US
 VignetteBuilder: knitr
 Config/Needs/website:
-    vidonne/unhcrtemplate
+    unhcr-dataviz/unhcrtemplate

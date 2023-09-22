@@ -29,7 +29,7 @@ pd_asr(
 pd_mysr(
   table = c("refugees", "refugeeLike", "returnees", "idp", "rsd", "stateless", "other",
     "oip", "hostCommunity", "as2", "comments"),
-  year = 2022,
+  year = 2023,
   quiet = getOption("popdata_quiet")
 )
 

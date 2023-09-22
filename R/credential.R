@@ -7,13 +7,13 @@
 #' @export
 pd_login <- function() {
   chrome <- ChromoteSession$new()
-  chrome$Page$navigate("https://popdata.unhcr.org/connect/azure")
+  chrome$Page$navigate("https://intranet.unhcr.org")
   chrome$view()
   readline("Hit [RETURN] to continue when you've logged in.")
   cookies <- chrome$Network$getAllCookies()
   chrome$close()
   bool <- vapply(cookies$cookies,
-                 function(x) x$domain == "popdata.unhcr.org",
+                 function(x) grepl( "^(.+)\\.unhcr\\.org$", x$domain),
                  logical(1))
   azure_cookies <- cookies$cookies[!bool]
   pd_cache <- pd_cache_get_dir()
