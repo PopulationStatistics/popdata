@@ -5,7 +5,6 @@
 *.html
 *~
 inst/doc
-docs
 revdep/checks
 revdep/library
 revdep/checks.noindex
