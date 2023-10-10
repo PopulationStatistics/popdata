@@ -224,13 +224,15 @@ this.region <- "The Americas"
                        "Returned refugees and IDPs",
                        "Other of concern",
                        "Other in Need of International Protection")
+ ##used to map the palette - pal_poc
+ # https://github.com/vidonne/unhcrthemes/blob/master/data-raw/gen-color-data.R#L68
   poptype <- c("REF",
                "ASY", 
                "IDP",
                "STA", 
                "RET",
                "OOC",
-               "OIP" )
+               "OIP" )  ## still use VDA to align with the palette..
   total <- c( 
     ## Refugees - adding the like... 
     refugees_myr_reg |>
@@ -268,17 +270,147 @@ this.region <- "The Americas"
      dplyr::filter(asylum_unhcr.region == this.region ) |>
      dplyr::pull(midYearTotal) 
     )
+  
+
+begintotal <- c( 
+    ## Refugees - adding the like... 
+    refugees_myr_reg |>
+     dplyr::filter(asylum_unhcr.region == this.region ) |>
+     dplyr::pull(yearStartTotal)  +
+    refugeeLike_myr_reg |>
+     dplyr::filter(asylum_unhcr.region == this.region ) |>
+     dplyr::pull(yearStartTotal) ,
+   ## Refugees - asylum seekers 2 type
+    rsd_myr_reg |>
+     dplyr::filter(asylum_unhcr.region == this.region ) |>
+     dplyr::pull(yearStartTotal)  +
+    as2_myr_reg |>
+     dplyr::filter(asylum_unhcr.region == this.region ) |>
+     dplyr::pull(yearStartTotal)  ,
+   
+    idp_myr_reg |>
+     dplyr::filter(origin_unhcr.region == this.region ) |>
+     dplyr::pull(yearStartTotal) ,
+    
+    stateless_myr_reg |>
+     dplyr::filter(asylum_unhcr.region == this.region ) |>
+     dplyr::pull(yearStartTotal) ,
+    
+    # ret_myr_reg |>
+    #  dplyr::filter(origin_unhcr.region == this.region ) |>
+    #  dplyr::pull(yearStartTotal),
+   NA,
+     
+    other_myr_reg |>
+     dplyr::filter(asylum_unhcr.region == this.region ) |>
+     dplyr::pull(yearStartTotal),
+    
+    oip_myr_reg |>
+     dplyr::filter(asylum_unhcr.region == this.region ) |>
+     dplyr::pull(yearStartTotal) 
+    )  
+  
 table <- data.frame( 
    "population.type" <- population.type ,
   "poptype" <- poptype,
-  "total" <- total 
+  "total" <- total ,
+  "begintotal" <- begintotal 
 )
+
+names(table)[1] <- "population.type"
+names(table)[2] <- "poptype"
+names(table)[3] <- "total"
+names(table)[4] <- "begintotal"
+
+table$population.type <- factor(table$population.type,
+                                levels =c(
+                       "Other in Need of International Protection",
+                       "Other of concern",
+                       "Returned refugees and IDPs",
+                       "Stateless persons",
+                       "IDPs",
+                       "Asylum-seekers", 
+                       "Refugees"))
+
+## global total
+globtot <-  
+    ## Refugees - adding the like... 
+    refugees_myr_reg |> 
+    dplyr::summarise(tot = sum(midYearTotal, na.rm = TRUE)) |>
+     dplyr::pull(tot)  +
+    refugeeLike_myr_reg |> 
+    dplyr::summarise(tot = sum(midYearTotal, na.rm = TRUE)) |>
+     dplyr::pull(tot)  +
+   ## Refugees - asylum seekers 2 type
+    rsd_myr_reg |> 
+    dplyr::summarise(tot = sum(midYearTotal, na.rm = TRUE)) |>
+     dplyr::pull(tot)  +
+    as2_myr_reg |> 
+    dplyr::summarise(tot = sum(midYearTotal, na.rm = TRUE)) |>
+     dplyr::pull(tot)  +
+    idp_myr_reg |>
+    dplyr::summarise(tot = sum(midYearTotal, na.rm = TRUE)) |>
+     dplyr::pull(tot)  +
+    stateless_myr_reg |> 
+    dplyr::summarise(tot = sum(midYearTotal, na.rm = TRUE)) |>
+     dplyr::pull(tot)  +
+    ret_myr_reg |>
+    dplyr::summarise(tot = sum(midYearTotal, na.rm = TRUE)) |>
+     dplyr::pull(tot)  +
+    other_myr_reg |> 
+    dplyr::summarise(tot = sum(midYearTotal, na.rm = TRUE)) |>
+     dplyr::pull(tot)  +
+    oip_myr_reg |>
+    dplyr::summarise(tot = sum(midYearTotal, na.rm = TRUE)) |>
+     dplyr::pull(tot)  
 # 
-# 
-# library(ggplot2)
+library(ggplot2)
+library(unhcrthemes)
 # 
 # title = paste0("People with and for whom UNHCR works in ", this.year)
+# Plot
+p <- ggplot(table) +
+  geom_col(aes(
+    x = total,
+    y =  population.type ,
+    fill = factor(poptype)) , 
+  width = 0.8  ) +
+  geom_text(aes( x = total,
+    y =  population.type ,
+    label =  scales::label_number( scale_cut = scales::cut_si(""), accuracy = 0.3)(total) )   ,
+  #  label = glue::glue(" {scales::label_number( scale_cut = scales::cut_si(""), accuracy = 0.2)(total)}") )   ,
+  hjust = -0.5,
+  size = 8 / .pt  ) +
+  labs(   title = paste0("People with and for whom UNHCR works as of mid-year ", this.year),
+    subtitle = paste0( scales::label_number( scale_cut = scales::cut_si(""),
+                                                       accuracy = 0.3) (sum(table$total, na.rm = TRUE)),
+                       " people in ", this.region,"  | ",
+                       format( sum(table$total, na.rm = TRUE)/ globtot * 100, 
+                               digits = 3),
+                       "% of global total"),
+    caption = "Source:  popdata.unhcr.org - Provisional figures - under embargo"
+  ) +
+   scale_fill_manual ( values = c(
+                            "REF" =  "#0072BC",
+                            "ASY" = "#18375F",
+                            "IDP" = "#00B398",
+                            "STA" = "#E1CC0D",
+                            "RET" = "#8395B9",
+                            "OOC" = "#999999",
+                            "OIP" = "#EF4A60")) +  
+   # scale_fill_unhcr_d(  palette = "pal_unhcr_poc",
+   #                                  nmax = 8,
+   #                                  order = c(1, 3,4,5, 7,8)) +
+  scale_x_continuous(expand = expansion(c(0, 0.1))) +
+  theme_unhcr(font_size = 14, 
+    grid = FALSE,
+    axis = "y",
+    axis_title = FALSE,
+    axis_text = "y"
+  ) +
+   theme(legend.position = "none")
 
+p
 
 ```
 
