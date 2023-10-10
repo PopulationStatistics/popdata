@@ -204,6 +204,8 @@ DT::datatable(ret_myr_reg , caption = "Regional Summary: Returnee persons"   )
 ```{r}
 
 stateless_myr_reg <- stateless_myr |>
+  ## Should we apply this filter?
+  #dplyr::filter(typeOfPopulation == "Stateless") |>
   dplyr::group_by(asylum_unhcr.region) |>
   dplyr::summarise(yearStartTotal = sum(totalYearStart, na.rm = TRUE),
                   midYearTotal = sum(totalMidYear, na.rm = TRUE)) |>
@@ -213,6 +215,8 @@ stateless_myr_reg <- stateless_myr |>
 
 #knitr::kable(stateless_myr_reg , caption = "Regional Summary: Stateless persons" )
 DT::datatable(stateless_myr_reg , caption = "Regional Summary: Stateless persons"  ) 
+
+#stateless_myr |> dplyr::filter( asylum_unhcr.region == "The Americas")
  
 ```
 
@@ -272,6 +276,8 @@ DT::datatable(hostCommunity_myr_reg , caption = "Regional Summary: Host Communit
 
 plot_region <- function( this.region ){
 
+  # this.region = "The Americas"
+  
 ## Build summary table
  population.type <- c("Refugees",
                        "Asylum-seekers", 
@@ -388,6 +394,12 @@ table$population.type <- factor(table$population.type,
                        "Asylum-seekers", 
                        "Refugees"))
 
+## build label
+
+table$label <- dplyr::case_when( 
+  table$total > 1000 ~  scales::label_number( scale_cut = scales::cut_si(""), accuracy = 0.1)(table$total),
+  .default = as.character(table$total) )
+
 ## global total
 globtot <-  
     ## Refugees - adding the like... 
@@ -441,7 +453,7 @@ p <- ggplot(table) +
         aes(
          x = total,
          y =  population.type,
-          label =  scales::label_number( scale_cut = scales::cut_si(""), accuracy = 0.3)(total)
+          label =  label
         ),
         hjust = -0.1 ,
         vjust = 0.5,
@@ -460,7 +472,7 @@ p <- ggplot(table) +
         aes(
          x = total,
          y =  population.type,
-         label =  scales::label_number( scale_cut = scales::cut_si(""), accuracy = 0.3)(total)
+         label =  label
         ),
         hjust = 1.1 ,
         vjust = 0.5,
@@ -484,7 +496,7 @@ p <- ggplot(table) +
                        format( sum(table$total, na.rm = TRUE)/ globtot * 100, 
                                digits = 3),
                        "% of global total"),
-    caption = "Source:  popdata.unhcr.org - Provisional figures - under embargo"
+    caption = "Source:  popdata.unhcr.org - Provisional rounded figures - Under embargo until 17 October"
   ) +
    scale_fill_manual ( values = c(
                             "REF" =  "#0072BC",
