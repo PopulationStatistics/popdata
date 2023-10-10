@@ -1,10 +1,10 @@
 ---
 title: "Regional Summary"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Data Quality Assurance Checks}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  unhcrdown::html_page:
+    toc: true
+    toc_depth: 2
+    toc_float: true
 ---
 
 ```{r setup, include = FALSE}
@@ -45,6 +45,10 @@ this.year <- 2023
 ## with Mid year... 
 refugees_myr <- pd_mysr(table = "refugees", year = this.year) |>
                 pd_augment(  expand = "asylum")  
+
+## Check countrymap
+#names(refugees_myr )
+
             
 refugeeLike_myr <- pd_mysr(table = "refugeeLike", year = this.year) |>
                 pd_augment(  expand = "asylum")  
@@ -80,7 +84,21 @@ comments <- pd_mysr(table = "comments", year = this.year) |>
                 pd_augment(  expand = "country")  
 ```
 
+# Mapped countries
+
+```{r}
+ctrmap <- refugees_myr |>
+          dplyr::select(asylum_unhcr.region, asylum_country.name, asylum )|>
+          dplyr::distinct() |>
+          dplyr::filter( asylum_unhcr.region == "The Americas")
+
+DT::datatable(ctrmap , caption = "Countries in the Americas"  )  
+```
+
+
 # Compare between region
+
+## Refugees
 
 ```{r}
 #names(refugees_myr)
@@ -89,10 +107,15 @@ refugees_myr_reg <- refugees_myr |>
   dplyr::summarise(yearStartTotal = sum(yearStartTotal, na.rm = TRUE),
                   midYearTotal = sum(midYearTotal, na.rm = TRUE)) |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
-                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1))
-knitr::kable(refugees_myr_reg , caption = "Regional Summary: Refugees" )
+                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1),
+                 change_pc =  round( (midYearTotal-  yearStartTotal)/ yearStartTotal *100, 1))  
+
+#knitr::kable(refugees_myr_reg , caption = "Regional Summary: Refugees" )
+DT::datatable(refugees_myr_reg , caption = "Regional Summary: Refugees"  )  
 ```
 
+
+## Refugees Like 
 
 ```{r}
 refugeeLike_myr_reg <- refugeeLike_myr |>
@@ -100,11 +123,16 @@ refugeeLike_myr_reg <- refugeeLike_myr |>
   dplyr::summarise(yearStartTotal = sum(yearStartTotal, na.rm = TRUE),
                   midYearTotal = sum(midYearTotal, na.rm = TRUE)) |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
-                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1))
- 
-knitr::kable(refugeeLike_myr_reg , caption = "Regional Summary: Refugees-Like" )
+                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1),
+                 change_pc =  round( (midYearTotal-  yearStartTotal)/ yearStartTotal *100, 1))  
+
+#knitr::kable(refugeeLike_myr_reg , caption = "Regional Summary: Refugees-Like" )
+DT::datatable(refugeeLike_myr_reg , caption = "Regional Summary: Refugees-Like"  ) 
+  
 ```
 
+
+## Asylum Seekers
 
 ```{r}
 
@@ -115,9 +143,12 @@ rsd_myr_reg <- rsd_myr |>
   dplyr::summarise(yearStartTotal = sum(totalStartYear, na.rm = TRUE),
                   midYearTotal = sum(totalMidYear, na.rm = TRUE)) |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
-                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1))            
+                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1),
+                 change_pc =  round( (midYearTotal-  yearStartTotal)/ yearStartTotal *100, 1))  
 
-knitr::kable(rsd_myr_reg , caption = "Regional Summary: Individual asylum applications" )
+#knitr::kable(rsd_myr_reg , caption = "Regional Summary: Individual asylum applications" )
+DT::datatable(rsd_myr_reg , caption = "Regional Summary: Individual asylum applications"   )            
+ 
 ```
 
 
@@ -128,13 +159,16 @@ as2_myr_reg <- as2_myr |>
                    ## watch out  yearStartTotal - instead of midYearToral
                   midYearTotal = sum(yearStartTotal, na.rm = TRUE)) |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
-                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1))            
+                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1),
+                 change_pc =  round( (midYearTotal-  yearStartTotal)/ yearStartTotal *100, 1))  
 
-knitr::kable(as2_myr_reg , caption = "Regional Summary: Asylum Seekers-RSD not required" )
+#knitr::kable(as2_myr_reg , caption = "Regional Summary: Asylum Seekers-RSD not required")
+DT::datatable(as2_myr_reg , caption = "Regional Summary: Asylum Seekers-RSD not required" )   
 ```
 
 
 
+## IDPs
 
 ```{r}                
 
@@ -143,11 +177,15 @@ idp_myr_reg <- idp_myr |>
   dplyr::summarise(yearStartTotal = sum(totalStartYear, na.rm = TRUE),
                   midYearTotal = sum(totalMidYear, na.rm = TRUE)) |> 
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
-                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1)) 
+                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1),
+                 change_pc =  round( (midYearTotal-  yearStartTotal)/ yearStartTotal *100, 1))  
 
-knitr::kable(idp_myr_reg , caption = "Regional Summary: Internally displaced persons (IDPs)" )
+#knitr::kable(idp_myr_reg , caption = "Regional Summary: Internally displaced persons (IDPs)"  )
+DT::datatable(idp_myr_reg , caption = "Regional Summary: Internally displaced persons (IDPs)"  )    
 ```
 
+
+## Returnees
 
 ```{r}                
 
@@ -156,9 +194,12 @@ ret_myr_reg <- ret_myr |>
   dplyr::summarise(midYearTotal = sum(totalMidYear, na.rm = TRUE)) |> 
   dplyr::mutate( midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1)) 
 
-knitr::kable(ret_myr_reg , caption = "Regional Summary: Returnee persons" )
+#knitr::kable(ret_myr_reg , caption = "Regional Summary: Returnee persons" )
+DT::datatable(ret_myr_reg , caption = "Regional Summary: Returnee persons"   ) 
 ```
 
+
+## Stateless
 
 ```{r}
 
@@ -167,11 +208,16 @@ stateless_myr_reg <- stateless_myr |>
   dplyr::summarise(yearStartTotal = sum(totalYearStart, na.rm = TRUE),
                   midYearTotal = sum(totalMidYear, na.rm = TRUE)) |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
-                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1)) 
+                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1),
+                 change_pc =  round( (midYearTotal-  yearStartTotal)/ yearStartTotal *100, 1))  
 
-knitr::kable(stateless_myr_reg , caption = "Regional Summary: Stateless persons" )
+#knitr::kable(stateless_myr_reg , caption = "Regional Summary: Stateless persons" )
+DT::datatable(stateless_myr_reg , caption = "Regional Summary: Stateless persons"  ) 
+ 
 ```
 
+
+## others
 
 ```{r}               
 other_myr_reg <- other_myr |>
@@ -179,11 +225,16 @@ other_myr_reg <- other_myr |>
   dplyr::summarise(yearStartTotal = sum(totalYearStart, na.rm = TRUE),
                   midYearTotal = sum(totalMidYear, na.rm = TRUE)) |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
-                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1)) 
+                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1),
+                 change_pc =  round( (midYearTotal-  yearStartTotal)/ yearStartTotal *100, 1))  
 
-knitr::kable(other_myr_reg , caption = "Regional Summary: Other persons of concern to UNHCR" )
+#knitr::kable(other_myr_reg , caption = "Regional Summary: Other persons of concern to UNHCR"  )
+DT::datatable(other_myr_reg , caption = "Regional Summary: Other persons of concern to UNHCR"  ) 
+ 
 ```
 
+
+## other in Need of International Protection
 
 ```{r}
 oip_myr_reg <- oip_myr |>
@@ -191,9 +242,11 @@ oip_myr_reg <- oip_myr |>
   dplyr::summarise(yearStartTotal = sum(totalYearStart, na.rm = TRUE),
                   midYearTotal = sum(totalMidYear, na.rm = TRUE)) |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
-                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1)) 
+                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1),
+                 change_pc =  round( (midYearTotal-  yearStartTotal)/ yearStartTotal *100, 1))  
 
-knitr::kable(oip_myr_reg  , caption = "Regional Summary: Other people in need of international protection" )
+#knitr::kable(oip_myr_reg  , caption = "Regional Summary: Other people in need of international protection"  )
+DT::datatable(oip_myr_reg  , caption = "Regional Summary: Other people in need of international protection" ) 
 ```
 
 
@@ -203,18 +256,21 @@ hostCommunity_myr_reg <- hostCommunity_myr |>
   dplyr::summarise(yearStartTotal = sum(totalYearStart, na.rm = TRUE),
                   midYearTotal = sum(totalMidYear, na.rm = TRUE)) |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
-                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1))  
+                 midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1),
+                 change_pc =  round( (midYearTotal-  yearStartTotal)/ yearStartTotal *100, 1))  
 
-knitr::kable(hostCommunity_myr_reg , caption = "Regional Summary: Host Community" )
+#knitr::kable(hostCommunity_myr_reg , caption = "Regional Summary: Host Community" )
+DT::datatable(hostCommunity_myr_reg , caption = "Regional Summary: Host Community" )
 ```
 
 
 # Summary for region
 
 ```{r}
-## Now let's get the high level summary  
-this.region <- "The Americas"
+
 # dplyr::filter(asylum_unhcr.region == this.region )
+
+plot_region <- function( this.region ){
 
 ## Build summary table
  population.type <- c("Refugees",
@@ -375,13 +431,53 @@ p <- ggplot(table) +
     y =  population.type ,
     fill = factor(poptype)) , 
   width = 0.8  ) +
-  geom_text(aes( x = total,
-    y =  population.type ,
-    label =  scales::label_number( scale_cut = scales::cut_si(""), accuracy = 0.3)(total) )   ,
-  #  label = glue::glue(" {scales::label_number( scale_cut = scales::cut_si(""), accuracy = 0.2)(total)}") )   ,
-  hjust = -0.5,
-  size = 8 / .pt  ) +
-  labs(   title = paste0("People with and for whom UNHCR works as of mid-year ", this.year),
+  
+  ## Position label differently in the bar in white - outside bar in black
+  geom_label(
+          data = subset(
+            table,
+            total < max(total) / 1.5
+          ),
+        aes(
+         x = total,
+         y =  population.type,
+          label =  scales::label_number( scale_cut = scales::cut_si(""), accuracy = 0.3)(total)
+        ),
+        hjust = -0.1 ,
+        vjust = 0.5,
+        colour = "black",
+        fill = NA,
+        label.size = NA,
+        #family = "Lato",
+        size = 18 / .pt
+      ) +
+      
+      geom_label(
+        data = subset(
+           table,
+            total >= max(total) / 1.5
+        ),
+        aes(
+         x = total,
+         y =  population.type,
+         label =  scales::label_number( scale_cut = scales::cut_si(""), accuracy = 0.3)(total)
+        ),
+        hjust = 1.1 ,
+        vjust = 0.5,
+        colour = "white",
+        fill = NA,
+        label.size = NA,
+        # family = "Lato",
+        size = 18 / .pt
+      ) +
+  
+  # geom_text(aes( x = total,
+  #   y =  population.type ,
+  #   label =  scales::label_number( scale_cut = scales::cut_si(""), accuracy = 0.3)(total) )   ,
+  # #  label = glue::glue(" {scales::label_number( scale_cut = scales::cut_si(""), accuracy = 0.2)(total)}") )   ,
+  # hjust = -0.5,
+  # size = 18 / .pt  ) +
+  labs(   title = toupper(paste0("People with and for whom UNHCR works as of mid-year ", this.year)),
     subtitle = paste0( scales::label_number( scale_cut = scales::cut_si(""),
                                                        accuracy = 0.3) (sum(table$total, na.rm = TRUE)),
                        " people in ", this.region,"  | ",
@@ -398,22 +494,54 @@ p <- ggplot(table) +
                             "RET" = "#8395B9",
                             "OOC" = "#999999",
                             "OIP" = "#EF4A60")) +  
-   # scale_fill_unhcr_d(  palette = "pal_unhcr_poc",
-   #                                  nmax = 8,
-   #                                  order = c(1, 3,4,5, 7,8)) +
   scale_x_continuous(expand = expansion(c(0, 0.1))) +
-  theme_unhcr(font_size = 14, 
+  theme_unhcr(font_size = 22, 
     grid = FALSE,
     axis = "y",
     axis_title = FALSE,
     axis_text = "y"
   ) +
-   theme(legend.position = "none")
+   theme(legend.position = "none",
+         plot.title = element_text(color = "#0072BC"))
+
+return(p)
+}
 ```
 
+
+```{r fig.height=6, fig.width=8}
+## Now let's get the high level summary  
+plot_region(this.region = "The Americas")
+```
 
 ```{r fig.height=7, fig.width=8}
-p
-
+## Now let's get the high level summary  
+#plot_region(this.region = "Europe")
 ```
+
+```{r fig.height=7, fig.width=8}
+## Now let's get the high level summary  
+#plot_region(this.region = "Asia and the Pacific")
+```
+
+```{r fig.height=7, fig.width=8}
+## Now let's get the high level summary  
+#plot_region(this.region = "Southern Africa")
+```
+
+```{r fig.height=7, fig.width=8}
+## Now let's get the high level summary  
+#plot_region(this.region = "Middle East and North Africa")
+```
+
+```{r fig.height=7, fig.width=8}
+## Now let's get the high level summary  
+#plot_region(this.region = "West and Central Africa")
+```
+
+```{r fig.height=7, fig.width=8}
+## Now let's get the high level summary  
+#plot_region(this.region = "East and Horn of Africa")
+```
+
 
