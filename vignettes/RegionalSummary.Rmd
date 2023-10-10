@@ -55,8 +55,11 @@ rsd_myr <- pd_mysr(table = "rsd", year = this.year)|>
 as2_myr <- pd_mysr(table = "as2", year = this.year)|>
                 pd_augment(  expand = "asylum")  
                 
+
+## note that type make subgroup - IDP like - and  country-wide; conflict-induced only) 
 idp_myr <- pd_mysr(table = "idp", year = this.year) |>
-                pd_augment(  expand = "origin")  
+                pd_augment(  expand = "origin")  |>
+            dplyr::filter( type == "IDPA")
 
 ret_myr <- pd_mysr(table = "ret", year = this.year) |>
                 pd_augment(  expand = "origin")  
@@ -99,7 +102,7 @@ refugeeLike_myr_reg <- refugeeLike_myr |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
                  midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1))
  
-knitr::kable(refugees_myr_reg , caption = "Regional Summary: Refugees-Like" )
+knitr::kable(refugeeLike_myr_reg , caption = "Regional Summary: Refugees-Like" )
 ```
 
 
@@ -114,7 +117,7 @@ rsd_myr_reg <- rsd_myr |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
                  midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1))            
 
-knitr::kable(refugees_myr_reg , caption = "Regional Summary: Individual asylum applications" )
+knitr::kable(rsd_myr_reg , caption = "Regional Summary: Individual asylum applications" )
 ```
 
 
@@ -127,7 +130,7 @@ as2_myr_reg <- as2_myr |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
                  midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1))            
 
-knitr::kable(refugees_myr_reg , caption = "Regional Summary: Asylum Seekers-RSD not required" )
+knitr::kable(as2_myr_reg , caption = "Regional Summary: Asylum Seekers-RSD not required" )
 ```
 
 
@@ -142,7 +145,7 @@ idp_myr_reg <- idp_myr |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
                  midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1)) 
 
-knitr::kable(refugees_myr_reg , caption = "Regional Summary: Internally displaced persons (IDPs)" )
+knitr::kable(idp_myr_reg , caption = "Regional Summary: Internally displaced persons (IDPs)" )
 ```
 
 
@@ -153,7 +156,7 @@ ret_myr_reg <- ret_myr |>
   dplyr::summarise(midYearTotal = sum(totalMidYear, na.rm = TRUE)) |> 
   dplyr::mutate( midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1)) 
 
-knitr::kable(refugees_myr_reg , caption = "Regional Summary: Returnee persons" )
+knitr::kable(ret_myr_reg , caption = "Regional Summary: Returnee persons" )
 ```
 
 
@@ -166,7 +169,7 @@ stateless_myr_reg <- stateless_myr |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
                  midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1)) 
 
-knitr::kable(refugees_myr_reg , caption = "Regional Summary: Stateless persons" )
+knitr::kable(stateless_myr_reg , caption = "Regional Summary: Stateless persons" )
 ```
 
 
@@ -178,7 +181,7 @@ other_myr_reg <- other_myr |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
                  midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1)) 
 
-knitr::kable(refugees_myr_reg , caption = "Regional Summary: Other persons of concern to UNHCR" )
+knitr::kable(other_myr_reg , caption = "Regional Summary: Other persons of concern to UNHCR" )
 ```
 
 
@@ -190,7 +193,7 @@ oip_myr_reg <- oip_myr |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
                  midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1)) 
 
-knitr::kable(refugees_myr_reg , caption = "Regional Summary: Other people in need of international protection" )
+knitr::kable(oip_myr_reg  , caption = "Regional Summary: Other people in need of international protection" )
 ```
 
 
@@ -202,7 +205,7 @@ hostCommunity_myr_reg <- hostCommunity_myr |>
   dplyr::mutate( yearStartTotalpc = round( yearStartTotal/sum(yearStartTotal) *100, 1),
                  midYearTotalpc = round(midYearTotal/sum(midYearTotal) *100, 1))  
 
-knitr::kable(refugees_myr_reg , caption = "Regional Summary: Host Community" )
+knitr::kable(hostCommunity_myr_reg , caption = "Regional Summary: Host Community" )
 ```
 
 
@@ -214,14 +217,20 @@ this.region <- "The Americas"
 # dplyr::filter(asylum_unhcr.region == this.region )
 
 ## Build summary table
-
-table <- data.frame(
-  population.type <- c("Refugees", "Asylum-seekers",  "IDPs",
-                        "Stateless persons",
+ population.type <- c("Refugees",
+                       "Asylum-seekers", 
+                       "IDPs",
+                       "Stateless persons",
                        "Returned refugees and IDPs",
                        "Other of concern",
-                       "Other in Need of International Protection"),
-  poptype <- c("REF, ASY", "IDP", "STA", "RET", "OOC", "OIP" ),
+                       "Other in Need of International Protection")
+  poptype <- c("REF",
+               "ASY", 
+               "IDP",
+               "STA", 
+               "RET",
+               "OOC",
+               "OIP" )
   total <- c( 
     ## Refugees - adding the like... 
     refugees_myr_reg |>
@@ -230,40 +239,39 @@ table <- data.frame(
     refugeeLike_myr_reg |>
      dplyr::filter(asylum_unhcr.region == this.region ) |>
      dplyr::pull(midYearTotal)  ,
-    
+   ## Refugees - asylum seekers 2 type
     rsd_myr_reg |>
      dplyr::filter(asylum_unhcr.region == this.region ) |>
      dplyr::pull(midYearTotal)  +
     as2_myr_reg |>
      dplyr::filter(asylum_unhcr.region == this.region ) |>
      dplyr::pull(midYearTotal)  ,
+   
+   
+    idp_myr_reg |>
+     dplyr::filter(origin_unhcr.region == this.region ) |>
+     dplyr::pull(midYearTotal),
     
     stateless_myr_reg |>
      dplyr::filter(asylum_unhcr.region == this.region ) |>
      dplyr::pull(midYearTotal),
     
-    
     ret_myr_reg |>
-     dplyr::filter(asylum_unhcr.region == this.region ) |>
+     dplyr::filter(origin_unhcr.region == this.region ) |>
      dplyr::pull(midYearTotal),
      
+    other_myr_reg |>
+     dplyr::filter(asylum_unhcr.region == this.region ) |>
+     dplyr::pull(midYearTotal),
+    
     oip_myr_reg |>
      dplyr::filter(asylum_unhcr.region == this.region ) |>
-     dplyr::pull(midYearTotal),
-        oip_myr_reg |>
-     dplyr::filter(asylum_unhcr.region == this.region ) |>
-     dplyr::pull(midYearTotal),
-        oip_myr_reg |>
-     dplyr::filter(asylum_unhcr.region == this.region ) |>
-     dplyr::pull(midYearTotal),
-        oip_myr_reg |>
-     dplyr::filter(asylum_unhcr.region == this.region ) |>
-     dplyr::pull(midYearTotal),
-    oip_myr_reg |>
-     dplyr::filter(asylum_unhcr.region == this.region ) |>
-     dplyr::pull(midYearTotal)
-    ),
-  total_label <- c()
+     dplyr::pull(midYearTotal) 
+    )
+table <- data.frame( 
+   "population.type" <- population.type ,
+  "poptype" <- poptype,
+  "total" <- total 
 )
 # 
 # 
