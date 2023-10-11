@@ -2,10 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-*.html
 *~
 inst/doc
-docs
 revdep/checks
 revdep/library
 revdep/checks.noindex

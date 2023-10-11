@@ -6,49 +6,52 @@
 \alias{popdata-package}
 \alias{pd_asr}
 \alias{pd_mysr}
-\alias{pd_pf}
 \title{popdata}
 \usage{
 popdata(
-  report = c("asr", "mysr", "pf"),
-  table = c("refugees", "refugeeLike", "returnees", "demographics", "idp", "rsd",
-    "stateless", "oip", "other", "hostcommunity", "coo", "ppg", "specific", "as2",
-    "comments"),
+  report = c("asr", "mysr"),
+  table = c("refugees", "refugeeLike", "demographics", "rsd", "as2", "idp", "returnees",
+    "stateless", "other", "oip", "hostCommunity", "comments"),
   year = 2022,
   quiet = getOption("popdata_quiet")
 )
 
 pd_asr(
-  table = c("refugees", "refugeelike", "refugeeLike", "returnees", "demographics", "idp",
-    "rsd", "stateless", "oip", "other", "hostcommunity", "hostCommunity", "as2",
-    "comments"),
+  table = c("refugees", "refugeeLike", "demographics", "rsd", "as2", "idp", "returnees",
+    "stateless", "other", "oip", "hostCommunity", "comments"),
   year = 2022,
   quiet = getOption("popdata_quiet")
 )
 
 pd_mysr(
-  table = c("refugees", "refugeeLike", "returnees", "idp", "rsd", "stateless", "other",
-    "oip", "hostCommunity", "as2", "comments"),
+  table = c("refugees", "refugeeLike", "demographics", "rsd", "as2", "idp", "returnees",
+    "stateless", "other", "oip", "hostCommunity", "comments"),
   year = 2023,
-  quiet = getOption("popdata_quiet")
-)
-
-pd_pf(
-  table = c("coo", "ppg", "specific"),
-  year = 2020,
   quiet = getOption("popdata_quiet")
 )
 }
 \arguments{
-\item{report}{character, the type of report asr, mysr or pf}
+\item{report}{character, the type of report asr, mysr}
 
-\item{table}{character, the indicator refugees, refugeeLike, returnees,
-demographics, idp, rsd, stateless, oip, other, hostcommunity, coo, ppg or specifics}
+\item{table}{character, any of the follwoing tables from within popdata:
 
-\item{year}{integer, the year}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{             *  "refugees", 
+             *  "refugeeLike",
+             *  "demographics",
+             *  "rsd",
+             *  "as2", 
+             *  "idp",
+             *  "returnees", 
+             *  "stateless", 
+             *  "other",
+             *  "oip", 
+             *  "hostCommunity",
+             *  "comments"
+}\if{html}{\out{</div>}}}
 
-\item{quiet}{logical, print message on updating session cookie or not.
-options(popdata_quiet = TRUE) can also be used}
+\item{year}{year for release}
+
+\item{quiet}{option}
 }
 \value{
 A tibble
